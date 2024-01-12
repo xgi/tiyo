@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@tiyo/core": ["core/src/index.ts"]
+      "@tiyo/common": ["libs/common/src/index.ts"],
+      "@tiyo/core": ["libs/core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
