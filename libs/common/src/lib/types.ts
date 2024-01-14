@@ -4,7 +4,6 @@ export type ExtensionMetadata = {
   id: string;
   name: string;
   url: string;
-  version: string;
   translatedLanguage: LanguageKey | undefined;
 };
 
