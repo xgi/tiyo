@@ -1,6 +1,6 @@
 import { TiyoClientAbstract, WebviewFunc } from '@tiyo/common';
 import * as mangadex from './extensions/mangadex';
-import * as filesystemExt from './extensions/filesystem';
+import * as mangasee from './extensions/mangasee';
 import { BrowserWindow } from 'electron';
 import { loadInWebView } from './util/webview';
 
@@ -13,7 +13,7 @@ export class TiyoClient extends TiyoClientAbstract {
 
   // prettier-ignore
   override getExtensions = () => ({
-    [filesystemExt.METADATA.id]: { metadata: filesystemExt.METADATA, client: new filesystemExt.ExtensionClient(this._webviewFn) },
-    [mangadex.METADATA.id]: { metadata: mangadex.METADATA, client: new mangadex.ExtensionClient(this._webviewFn) }
+    [mangadex.METADATA.id]: { metadata: mangadex.METADATA, client: new mangadex.ExtensionClient(this._webviewFn) },
+    [mangasee.METADATA.id]: { metadata: mangasee.METADATA, client: new mangasee.ExtensionClient(this._webviewFn) }
   });
 }
