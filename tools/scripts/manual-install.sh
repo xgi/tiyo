@@ -15,28 +15,5 @@ if [ ! -d "$1/plugins/@tiyo" ]; then
   mkdir "$1/plugins/@tiyo"
 fi
 
-# INSTALL_PATH="$1/plugins/@tiyo/core"
-# if [ ! -d "$INSTALL_PATH" ]; then
-#   mkdir $INSTALL_PATH
-# fi
-
-cp -r ../../dist/client $1/plugins/@tiyo
-
-
-# for EXTENSION_DIR in ../extensions/*/; do
-#   if [ ! -d "$EXTENSION_DIR/dist" ]; then
-#     echo "Skipping install for $(basename $EXTENSION_DIR) because it has not been built"
-#     continue
-#   fi
-#   echo "Installing extension $(basename $EXTENSION_DIR)"
-
-#   INSTALL_PATH="$1/plugins/@houdoku/extension-$(basename $EXTENSION_DIR)"
-  
-
-#   cp -r $EXTENSION_DIR/dist $INSTALL_PATH
-#   cp $EXTENSION_DIR/package.json $INSTALL_PATH
-
-#   # somewhat overkill for the modules each extension actually needs,
-#   # but shouldn't take too much extra space
-#   rsync -r ../node_modules $INSTALL_PATH --exclude 'typescript' --exclude 'electron' --exclude '.bin'
-# done
+cp -r ../../dist/libs/core $1/plugins/@tiyo
+rsync -r ../../node_modules $1/plugins/@tiyo/core --exclude 'typescript' --exclude 'electron' --exclude '.bin'

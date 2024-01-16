@@ -14,11 +14,20 @@ import { ExternalClient, SettingType } from './enums';
 import { FilterOption } from './filters';
 
 /**
+ * Get the version of the plugin package.
+ *
+ * @returns string of npm-style version
+ */
+export interface GetVersionFunc {
+  (): string;
+}
+
+/**
  * Get a list of available extensions.
  *
  * @returns list of metadata and instantiated client for all extensions
  */
-export interface GetExtensions {
+export interface GetExtensionsFunc {
   (): { [key: string]: { metadata: ExtensionMetadata; client: ExtensionClientInterface } };
 }
 
@@ -250,7 +259,8 @@ export abstract class ExtensionClientAbstract implements ExtensionClientInterfac
 export interface TiyoClientInterface {
   spoofWindow: BrowserWindow;
 
-  getExtensions: GetExtensions;
+  getVersion: GetVersionFunc;
+  getExtensions: GetExtensionsFunc;
 }
 
 export abstract class TiyoClientAbstract implements TiyoClientInterface {
@@ -260,5 +270,6 @@ export abstract class TiyoClientAbstract implements TiyoClientInterface {
     this.spoofWindow = spoofWindow;
   }
 
-  getExtensions!: GetExtensions;
+  getVersion!: GetVersionFunc;
+  getExtensions!: GetExtensionsFunc;
 }

@@ -19,6 +19,10 @@
       "command": "node tools/scripts/publish.mjs core {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
+    "manual-install": {
+      "command": "sh tools/scripts/manual-install.sh",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
