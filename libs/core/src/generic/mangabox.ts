@@ -53,7 +53,6 @@ export class MangaBoxClient {
       return {
         extensionId: this.extensionId,
         sourceId,
-
         title,
         altTitles: [],
         description: '',
@@ -81,9 +80,9 @@ export class MangaBoxClient {
       .then((text: string) => {
         const doc = new JSDOM(text).window.document;
 
-        const container = doc.querySelector('div.manga-info-top, div.panel-story-info');
+        const container = doc.querySelectorAll('div.manga-info-top, div.panel-story-info')[0];
         const remoteCoverUrl = container.querySelector('img').getAttribute('src');
-        const title = container.querySelector('h1, h2').textContent.trim();
+        const title = container.querySelectorAll('h1, h2')[0].textContent.trim();
         const description = doc.querySelector(
           'div#noidungm, div#panel-story-info-description'
         ).textContent;
@@ -91,24 +90,7 @@ export class MangaBoxClient {
         let tags: string[] = [];
         let authors: string[] = [];
         let status = SeriesStatus.ONGOING;
-        if (doc.querySelectorAll('div.manga-info-top').length > 0) {
-          tags = Array.from(
-            Array.from(container.querySelectorAll('li'))
-              .find((element) => element.innerHTML.includes('Genres'))
-              .querySelectorAll('a')
-          ).map((element) => element.textContent);
-          authors = Array.from(
-            Array.from(container.querySelectorAll('li'))
-              .find((element) => element.innerHTML.includes('Author'))
-              .querySelectorAll('a')
-          ).map((element) => element.textContent);
-          status =
-            SERIES_STATUS_MAP[
-              Array.from(container.querySelectorAll('li'))
-                .find((element) => element.textContent.includes('Status'))
-                .textContent.split(' : ')[1]
-            ];
-        } else {
+        if (doc.querySelectorAll('table.variations-tableInfo').length > 0) {
           tags = Array.from(
             Array.from(container.querySelectorAll('td'))
               .find((element) => element.textContent.includes('Genres'))
@@ -124,6 +106,23 @@ export class MangaBoxClient {
               Array.from(container.querySelectorAll('td')).find((element) =>
                 element.textContent.includes('Status')
               ).parentElement.lastElementChild.textContent
+            ];
+        } else {
+          tags = Array.from(
+            Array.from(container.querySelectorAll('li'))
+              .find((element) => element.innerHTML.includes('Genres'))
+              .querySelectorAll('a')
+          ).map((element) => element.textContent);
+          authors = Array.from(
+            Array.from(container.querySelectorAll('li'))
+              .find((element) => element.innerHTML.includes('Author'))
+              .querySelectorAll('a')
+          ).map((element) => element.textContent);
+          status =
+            SERIES_STATUS_MAP[
+              Array.from(container.querySelectorAll('li'))
+                .find((element) => element.textContent.includes('Status'))
+                .textContent.split(' : ')[1]
             ];
         }
 
