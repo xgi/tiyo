@@ -1,5 +1,7 @@
 import { TiyoClientAbstract, WebviewFunc } from '@tiyo/common';
 import * as anatanomotokare from './extensions/anatanomotokare';
+import * as arcrelight from './extensions/arcrelight';
+import * as assortedscans from './extensions/assortedscans';
 import * as comick from './extensions/comick';
 import * as deathtollscans from './extensions/deathtollscans';
 import * as disasterscans from './extensions/disasterscans';
@@ -59,6 +61,8 @@ export class TiyoClient extends TiyoClientAbstract {
   // prettier-ignore
   override getExtensions = () => ({
     [anatanomotokare.METADATA.id]: { metadata: anatanomotokare.METADATA, client: new anatanomotokare.ExtensionClient(this._webviewFn)},
+    [arcrelight.METADATA.id]: { metadata: arcrelight.METADATA, client: new arcrelight.ExtensionClient(this._webviewFn)},
+    [assortedscans.METADATA.id]: { metadata: assortedscans.METADATA, client: new assortedscans.ExtensionClient(this._webviewFn)},
     [comick.METADATA.id]: { metadata: comick.METADATA, client: new comick.ExtensionClient(this._webviewFn)},
     [deathtollscans.METADATA.id]: { metadata: deathtollscans.METADATA, client: new deathtollscans.ExtensionClient(this._webviewFn)},
     [disasterscans.METADATA.id]: { metadata: disasterscans.METADATA, client: new disasterscans.ExtensionClient(this._webviewFn)},
