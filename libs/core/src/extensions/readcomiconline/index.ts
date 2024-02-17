@@ -141,7 +141,18 @@ export class ExtensionClient extends ExtensionClientAbstract {
         return Array.from(rows).map((row) => {
           const link = row.getElementsByTagName('a')![0];
           const title = link.textContent.trim();
-          const chapterNum = title.startsWith('Issue #') ? title.split('Issue #')[1] : '';
+          let chapterNum = '';
+          if (title.startsWith('Issue #')) {
+            chapterNum = title.split('Issue #')[1];
+          } else {
+            const tpbRegex = /TPB (\d+)\s?(\(Part (\d+)\))?/i;
+            const match: RegExpMatchArray | null = title.match(tpbRegex);
+            if (match !== null) {
+              const tpb = match[1];
+              const tpbPart = match[3];
+              chapterNum = `0.${tpb}${tpbPart || ''}`;
+            }
+          }
 
           return {
             id: undefined,
