@@ -141,7 +141,23 @@ export class ExtensionClient extends ExtensionClientAbstract {
         return Array.from(rows).map((row) => {
           const link = row.getElementsByTagName('a')![0];
           const title = link.textContent.trim();
-          const chapterNum = title.startsWith('Issue #') ? title.split('Issue #')[1] : '';
+          let chapterNum = '';
+          let groupName = '';
+          let volumeNumber = '';
+          if (title.startsWith('Issue #')) {
+            chapterNum = title.split('Issue #')[1];
+            groupName = 'Issue';
+          } else {
+            const tpbRegex = /TPB (\d+)\s?(\(Part (\d+)\))?/i;
+            const match: RegExpMatchArray | null = title.match(tpbRegex);
+            if (match !== null) {
+              const tpb = match[1];
+              const tpbPart = match[3];
+              chapterNum = `${tpb}${tpbPart ? `.${tpbPart}` : ''}`;
+              groupName = 'TPB';
+              volumeNumber = tpb;
+            }
+          }
 
           return {
             id: undefined,
@@ -149,9 +165,9 @@ export class ExtensionClient extends ExtensionClientAbstract {
             sourceId: link.getAttribute('href')!,
             title: title,
             chapterNumber: chapterNum,
-            volumeNumber: '',
+            volumeNumber: volumeNumber,
             languageKey: LanguageKey.ENGLISH,
-            groupName: '',
+            groupName: groupName,
             time: 0,
             read: false,
           };
